@@ -218,3 +218,27 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Zune: private inputs and device-specific outputs
+/private/
+/local-inputs/
+/generated/
+/backups/
+/outputs/
+/work/
+*.private.*
+*.PRIVATE*
+*.pfx
+*.p12
+*.pvk
+*.pem
+*.key
+*.bin
+*.img
+*.vhd
+*.vhdx
+*.ttf
+*.ttc
+*.otf
+*.log
+*.zip

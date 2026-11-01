@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-11-01",
+  "scope": "Sanitized historical results; this publication does not perform new device operations.",
+  "units": {
+    "A": {
+      "role": "Primary Chinese-text, MTP and FLAC test unit",
+      "native_chinese_song_text_after_reboot": "user_confirmed",
+      "menu_language": "English",
+      "font_probe_loaded_font_itself": false,
+      "font_probe_changed_registry_itself": false,
+      "windows_inbox_mtp_driver": "observed",
+      "explorer_storage_music_folder": "observed",
+      "ordinary_file_copy_and_complete_readback": "verified",
+      "native_music_mp3_entry_and_chinese_text": "user_confirmed",
+      "separate_clean_windows_pc_test": "not_performed",
+      "usb_mass_storage_drive_letter": "not_implemented",
+      "native_flac_playback_after_reboot": "user_confirmed",
+      "repaired_existing_album_art_after_reboot": "user_confirmed",
+      "new_import_background_artwork_worker": "experimental_full_hardware_validation_pending",
+      "source_reports": [
+        "persistent-chinese-completion-20261030.json",
+        "font-state58-physical.json",
+        "mtp-standard60-native-music-user-proof.json",
+        "flac-native83-user-reboot-persistence-confirmed.json"
+      ],
+      "user_observations": [
+        "歌名中文正常，只是菜单仍是英文",
+        "nb我测试了重启也没问题",
+        "重启后播放、中文和封面都正常"
+      ]
+    },
+    "B": {
+      "role": "Former 1.0 TEST unit; distinct per-device compatibility history",
+      "three_point_three_menu_and_about_version": "user_confirmed",
+      "three_point_three_boot_after_reboot": "user_confirmed",
+      "official_desktop_software_device_icon": "user_confirmed_after_compatibility_fix",
+      "working_compatibility_method": "Per-device runtime credential compatibility; not a universal unmodified stock firmware release",
+      "latest_chinese_flac_adaptation": {
+        "boot_and_decoder_load": "readback_verified",
+        "shell_copied_flac_byte_exact_readback": "verified",
+        "shell_import_duration_ms": 3000,
+        "native_screen_and_audio_after_final_reboot": "user_confirmation_pending"
+      },
+      "public_claim_boundary": "Unit A's screen, audio and reboot results do not certify this unit or every Zune 30G."
+    }
+  },
+  "historical_font_inspection": {
+    "font_file_distributed": false,
+    "bytes": 8206424,
+    "family": "Zune UI CJK",
+    "mapped_codepoints": 28446,
+    "mapped_basic_han": 20909,
+    "mapped_hiragana": 93,
+    "mapped_katakana": 96,
+    "mapped_hangul_syllables": 0,
+    "japanese_native_ui_validation": "pending",
+    "korean_support": "not_supported_by_this_font",
+    "coverage_is_not_native_rendering_proof": true
+  },
+  "flac_output_boundary": {
+    "current_decoder_pcm_output_bits": 16,
+    "source_files_reencoded_for_storage": false,
+    "universal_sample_rate_or_bit_depth_compatibility_claimed": false
+  },
+  "offline_public_tool_validation": {
+    "regression_tests_passed": 12,
+    "included_loader_bytes": 2048,
+    "included_loader_sha256": "dd2c0bf0fad44cc24a058820395b51b960a39fd662364654992144ef92df982d",
+    "loader_rebuild_byte_exact": true,
+    "modified_fdf_independent_parser_passed": true,
+    "independently_parsed_fdf_records": 2573,
+    "real_failed_startup_dependency_cycle_detected": true,
+    "arm_loader_emulated_with_mocked_os_calls": true,
+    "emulation_replaces_hardware_validation": false,
+    "device_operations_performed_for_publication": false
+  },
+  "not_claimed": [
+    "Full menu translation",
+    "Complete Japanese and Korean support",
+    "General WAV support",
+    "LBA48 larger-capacity read/write support",
+    "Universal one-click firmware upgrade or installer"
+  ],
+  "raw_material_excluded": [
+    "Device identifiers and credential material",
+    "Full backups and private adapted firmware images",
+    "Microsoft firmware, system DLLs and historical merged font",
+    "Host filesystem paths and personal media inventories"
+  ]
+}
