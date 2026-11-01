@@ -64,7 +64,7 @@
     "universal_sample_rate_or_bit_depth_compatibility_claimed": false
   },
   "offline_public_tool_validation": {
-    "regression_tests_passed": 12,
+    "regression_tests_passed": 22,
     "included_loader_bytes": 2048,
     "included_loader_sha256": "dd2c0bf0fad44cc24a058820395b51b960a39fd662364654992144ef92df982d",
     "loader_rebuild_byte_exact": true,

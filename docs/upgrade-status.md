@@ -1,8 +1,15 @@
 # 1.0 TEST → 3.3 研究状态 / Upgrade research status
 
-本仓库第一批公开内容聚焦中文显示教程和工具。升级研究与中文显示属于相关但不同的工作。
-This initial publication focuses on Chinese text documentation and tooling. Upgrade recovery
-and font persistence are related but separate work.
+升级研究现已补充详细双语教程、失败原因解析和实际离线构建代码：
+
+- [中文新手教程：准备、备份、构建、验收和恢复](zh-CN/upgrade-1.0-test-to-3.3.md)
+- [English beginner guide](en/upgrade-1.0-test-to-3.3.md)
+- [源码与失败原因解析 / Internals and source map](upgrade-internals.md)
+- [脱敏重建验证 / Sanitized reconstruction proof](../evidence/upgrade-reproduction.json)
+
+The public source includes the real ARM RAM-compatibility routine, a local backup
+checker and an offline AUTH196 image builder. It reproduces the historical private
+image with the same private inputs; it does not contact USB or install firmware.
 
 ## 实际结果 / Observed results
 

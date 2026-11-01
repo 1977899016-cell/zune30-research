@@ -28,6 +28,9 @@ is verified, while the menus remain English.
 
 ## 从这里开始 / Start here
 
+- **[1.0 TEST → 3.3 新手详细教程（中文）](docs/zh-CN/upgrade-1.0-test-to-3.3.md)**
+- **[1.0 TEST → 3.3 beginner guide (English)](docs/en/upgrade-1.0-test-to-3.3.md)**
+- [升级失败原因与实际源码 / Upgrade internals and actual source code](docs/upgrade-internals.md)
 - [中文显示教程（中文）](docs/zh-CN/chinese-text-guide.md)
 - [Chinese text guide (English)](docs/en/chinese-text-guide.md)
 - [功能范围与验证边界 / Features and validation](docs/features.md)
@@ -43,11 +46,25 @@ is verified, while the menus remain English.
 - `tools/prepare_registry.py`：对自行提取的未压缩 `default.fdf` 生成中文字体链接及启动依赖配置。
 - `tools/inspect_font.py`：检查自行准备的字体、字族名称及字符覆盖范围。
 - `tests/`：启动依赖与原生 ARM 加载流程的离线回归验证。
+- `tools/upgrade/`：原机备份校验、实际 ARM 兼容例程和 AUTH196 私有镜像的离线构建源码。
 - `SHA256SUMS.txt`：上述公开文件的完整性清单。
 
 The loader contains project-generated code and import metadata, not a Microsoft system DLL
 or a device credential vault. Building it requires `coredll.dll` extracted locally from the
 user's own firmware; that DLL is not included.
+
+### 升级教程与代码 / Upgrade guide and code
+
+现在已公开完整研究过程说明，而不只是状态摘要。新手教程包含术语、准备、备份校验、
+构建命令、预期输出、故障排查与已验证机器的恢复按键路径。
+公开构建器已在本地复现出与历史成功 AUTH196 逐字节相同的私有镜像。
+
+The upgrade guides now explain the workflow, inputs, exact commands, expected output
+and recovery boundaries. The public builder reproduced the historical AUTH196 image
+byte for byte using the maintainer's own private inputs. **It builds offline and does
+not flash a device. General USB backup/installation/recovery tooling is not included.**
+The desktop-compatible research adaptation is stock-3.3-derived, with per-device RAM
+credential compatibility; it is not a released universally unmodified stock upgrade.
 
 ## 中文持久化原理 / How persistence works
 

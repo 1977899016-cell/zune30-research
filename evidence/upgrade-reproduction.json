@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-11-01",
+  "scope": "Sanitized historical upgrade results and current offline source reproduction",
+  "historical_physical_observations": {
+    "former_firmware": "1.0 (186) TEST on one Zune 30G",
+    "direct_1_4_and_3_3_trials": "black_screen_or_reboot_on_this_unit",
+    "original_1_0_nk_restore": "physically_exercised_normal_menu_confirmed",
+    "three_point_three_menu_about_and_reboot": "user_confirmed_in_earlier_phase",
+    "same_unit_authentication_after_AUTH196": "real_challenge_and_protected_enumeration_passed",
+    "official_desktop_icon_after_AUTH196": "user_confirmed",
+    "same_final_image_desktop_recognition_after_cold_boot": "not_finally_confirmed",
+    "complete_native_38_field_ciphertext_journal": "not_fully_retrieved",
+    "complete_permanent_migration_for_unmodified_stock33": false
+  },
+  "historical_offline_controls": {
+    "header_only_outer_digest": "accepted_in_model",
+    "header_only_RSA_consistency_under_new_cipher": "failed_in_model",
+    "full_38_field_plaintexts_preserved": "passed_in_model",
+    "ARM_control_cases_passed": 14,
+    "hardware_crypto_in_controls": "modeled_not_real_chip_calls"
+  },
+  "current_public_source_validation": {
+    "portable_total_regression_tests_passed": 22,
+    "public_builder_reproduced_historical_AUTH196_byte_exact": true,
+    "public_ARM_runtime_reproduced_historical_bytes": true,
+    "reproduction_inputs": "Maintainer-local stock NK, same-unit encrypted legacy backup and original journal token",
+    "private_output_published": false,
+    "backup_checker_passed_on_retained_original_backup_set": true,
+    "public_upstream_CE_decoder_compatible": true,
+    "public_upstream_decoder_sha256": "42693ba5e756f664d2405bdaa2f6f9bc5671b5956439aeed581c8e7e89f2e72d",
+    "device_operations_performed_for_this_publication": false
+  },
+  "public_scope": {
+    "native_compatibility_source": true,
+    "offline_private_image_builder": true,
+    "existing_backup_checker": true,
+    "universal_USB_backup_installer_or_recovery_program": false,
+    "unmodified_stock_Microsoft_upgrade_image": false,
+    "per_device_credential_material_in_repository": false
+  }
+}

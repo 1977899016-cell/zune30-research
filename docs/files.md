@@ -10,6 +10,10 @@
 | `tools/prepare_registry.py` | 离线 FDF 修改和启动依赖校验 / Offline FDF modification and dependency checks |
 | `tools/inspect_font.py` | 检查字体族及字符映射 / Font metadata and cmap inspection |
 | `tests/` | 离线回归验证 / Offline regression tests |
+| `tools/upgrade/check_backups.py` | 已有本地备份校验，不是备份提取器 / Check existing backups, not a backup extractor |
+| `tools/upgrade/build_upgrade.py` | AUTH196 私有研究镜像离线重建 / Offline private AUTH196 reconstruction |
+| `tools/upgrade/runtime.py`、`rewrap_runtime.asm` | 实际 ARM 兼容逻辑，不含原机身份数据 / Actual native routine, no device identity bytes |
+| `tools/upgrade/ce_bin.py`、`ce_lzx.py` | 容器、布局及压缩回读检查 / Container and compression checks |
 | `evidence/verified-results.json` | 已验证功能与限制的脱敏摘要 / Sanitized evidence and limitations |
 | `SHA256SUMS.txt` | 文件完整性清单 / Integrity manifest |
 
@@ -52,8 +56,9 @@ loader signals Init even if it cannot load the font.
 ## 不包含的安装阶段 / Installation stages not included
 
 本版没有 Microsoft NK、默认注册表原件、coredll、合并字库、FLAC 第三方 DLL、
-TEST 启动器、安全数据迁移代码或通用固件封装/刷写器。
+TEST 启动器、永久安全区写入程序或通用 USB 备份/刷写器。
 
 No Microsoft NK, source FDF, coredll, merged font, third-party decoder DLL, TEST bootloader,
-credential migration code or universal image packer/flasher is included. Read the full guide
-before treating any intermediate artifact as device-ready.
+persistent credential writer or universal USB backup/flasher is included. The upgrade
+folder now includes the actual RAM-only compatibility routine and a version-pinned
+offline image builder. Read the full guide before treating an output as device-ready.

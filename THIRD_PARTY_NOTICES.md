@@ -23,6 +23,15 @@ Check the exact package versions and upstream license files before redistributin
 The repository does not relicense them. The loader generator's output is not a bundled copy
 of these engines.
 
+## Optional CE decompression module for the upgrade builder
+
+The offline upgrade builder calls a separately supplied
+[KodaSec/wince-decompr](https://github.com/KodaSec/wince-decompr) `wincedecompr.py`
+to independently verify CE LZX output. This module is not vendored. Obtain and retain
+its upstream license with your local copy. The tested upstream file SHA-256 is
+`42693ba5e756f664d2405bdaa2f6f9bc5671b5956439aeed581c8e7e89f2e72d`.
+Windows MakeCAB is used as a locally installed tool and is not redistributed.
+
 ## FLAC and community research
 
 FLAC functionality in the private research build uses separately obtained Xiph/DirectShow
