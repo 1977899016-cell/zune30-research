@@ -100,7 +100,8 @@ private identity, a generic authentication certificate or a reusable device vaul
 
 ## USB transfer and commit
 
-以下为历史安装程序的状态机记录，**不是公开版已实现的通用 USB 后端**：
+以下为历史安装程序的状态机记录。`app/zzune/transfer.py` 现在实现了对应的受限实验状态机，
+仍不是已经真机验收的通用 USB 后端：
 
 ```text
 GetDeviceInfo (0x1001)
@@ -128,8 +129,9 @@ Commit (0x9204), ONCE
 The reviewed local research installers are not copied verbatim here because they
 contain fixed private paths, per-device identity and state from old sessions.
 Publishing those unchanged would create both privacy problems and a misleading
-cross-device installer. The offline build code is runnable; a general transport
-implementation remains unfinished.
+cross-device installer. The new `app/` backend parameterizes device identity,
+uses private journals and limits supported builds. Its new-tool hardware acceptance
+remains pending; see [assistant validation](../evidence/assistant-validation.json).
 
 ## 源码入口 / Code map
 

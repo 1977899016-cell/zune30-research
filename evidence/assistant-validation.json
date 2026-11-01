@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-11-01",
+  "application": "ZZ AUDIO Zune 30 Upgrade Assistant",
+  "version": "0.1.0 Alpha",
+  "release_state": "experimental_hardware_acceptance_pending",
+  "offline_regression_tests_passed": 43,
+  "implemented": {
+    "Windows_graphical_interface": true,
+    "serialized_WPD_worker": true,
+    "read_only_inspection": true,
+    "owned_carrier_NK_and_raw_backup": true,
+    "same_unit_backup_binding": true,
+    "stock_source_and_bootloader_hash_gates": true,
+    "offline_private_image_build": true,
+    "full_normal_interface_staging_readback": true,
+    "durable_single_commit_intent": true,
+    "recovery_gate_before_first_upgrade": true,
+    "guided_original_NK_restore": true,
+    "original_NK_restore_available_after_partial_raw_backup": true,
+    "unattended_recovery_from_every_failure": false
+  },
+  "validation": {
+    "simulated_backup_restore_upgrade_restore_flow": "passed",
+    "distributed_ARM_backup_helpers_executed_in_Unicorn": "passed_with_synthetic_sources_and_mocked_CE_APIs",
+    "ownership_one_shot_and_unstable_source_controls": "passed",
+    "disconnect_does_not_repeat_commit": "passed",
+    "wrong_device_corrupt_staging_unknown_queue_controls": "passed",
+    "incomplete_or_modified_backup_controls": "passed",
+    "native_templates_rebuild_from_public_metadata_without_Microsoft_DLL": "byte_exact",
+    "Windows_packaged_GUI_assets_COM_ARM_and_CE_codec_selftest": "passed",
+    "packaged_executable_real_private_inputs_offline_prepare": "passed_output_kept_local",
+    "visual_window_capture": "not_verified_capture_tool_unavailable",
+    "physical_new_tool_USB_backup_upgrade_restore": "not_performed",
+    "physical_device_operations_during_this_release": false
+  },
+  "limits": [
+    "Only the analyzed first-generation 30G 1.0 TEST build is supported for upgrade",
+    "USB backup replaces previous qtk.exe, which cannot first be backed up through this interface",
+    "The generated image is stock-3.3-derived with per-device RAM compatibility",
+    "No permanent full credential migration or bootloader/SIG/partition write is implemented",
+    "Recovery staging is transfer-acknowledged and does not claim full readback",
+    "Manual entry into USB recovery is generally required",
+    "Existing old-Zune Windows driver and owner-supplied stock firmware are required"
+  ],
+  "publication_excludes": [
+    "Microsoft device firmware and system DLLs",
+    "Real device identifiers and credential material",
+    "Owner backups and per-device generated images",
+    "Private host paths and worker logs"
+  ]
+}

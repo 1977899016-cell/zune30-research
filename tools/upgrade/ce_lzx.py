@@ -40,7 +40,7 @@ def encode(data, decoder, makecab):
             result = subprocess.run([
                 str(makecab), '/D', 'CompressionType=LZX', '/D', 'CompressionMemory=15',
                 str(source), str(target)
-            ], capture_output=True)
+            ], capture_output=True, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
             if result.returncode:
                 raise ValueError('MakeCAB failed: ' + str(result.returncode))
             cab = target.read_bytes()

@@ -2,6 +2,7 @@
 
 升级研究现已补充详细双语教程、失败原因解析和实际离线构建代码：
 
+- [Windows 图形升级助手（实验 Alpha）](zh-CN/assistant.md) / [English](en/assistant.md)
 - [中文新手教程：准备、备份、构建、验收和恢复](zh-CN/upgrade-1.0-test-to-3.3.md)
 - [English beginner guide](en/upgrade-1.0-test-to-3.3.md)
 - [源码与失败原因解析 / Internals and source map](upgrade-internals.md)
@@ -10,6 +11,8 @@
 The public source includes the real ARM RAM-compatibility routine, a local backup
 checker and an offline AUTH196 image builder. It reproduces the historical private
 image with the same private inputs; it does not contact USB or install firmware.
+The separate experimental GUI in `app/` implements restricted USB operations with
+same-unit and recovery gates; its full hardware acceptance remains pending.
 
 ## 实际结果 / Observed results
 

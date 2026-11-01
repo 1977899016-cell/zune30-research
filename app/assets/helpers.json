@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "original_project_code_only": true,
+  "files": {
+    "backup-nk": {
+      "filename": "backup-nk.template.exe",
+      "sha256": "97b4b12e4af97a7dfffff66df313426b1ac57ad695872f818c34ef4cb564bd08",
+      "bytes": 4608,
+      "binding_offset": 2676,
+      "template_header_hex": "5a54455354314241434b5550313034005a5a554e452d464958545552452d30306800000000000001a50000040000000000000000000000000000000000000000",
+      "capacity": 16777216,
+      "version": 104,
+      "magic": "ZTEST1BACKUP104",
+      "ordinals": {
+        "639": "SignalStarted",
+        "496": "Sleep",
+        "528": "LoadLibraryW",
+        "530": "GetProcAddressW",
+        "168": "CreateFileW",
+        "172": "GetFileSize",
+        "170": "ReadFile",
+        "173": "SetFilePointer",
+        "171": "WriteFile",
+        "175": "FlushFileBuffers",
+        "553": "CloseHandle",
+        "612": "GetCurrentPermissions",
+        "33": "LocalAlloc",
+        "36": "LocalFree",
+        "6": "ExitThread"
+      }
+    },
+    "backup-raw": {
+      "filename": "backup-raw.template.exe",
+      "sha256": "fc19b7f45893351796ecb93e913ebcff7453dfcfeb185afb14f898577112fb8c",
+      "bytes": 6144,
+      "binding_offset": 4264,
+      "template_header_hex": "5a5445535431524157313039000000005a5a554e452d464958545552452d30306d00000000004000a50000040000000000000000000000000000000000000000",
+      "capacity": 4194304,
+      "version": 109,
+      "magic": "ZTEST1RAW109",
+      "ordinals": {
+        "639": "SignalStarted",
+        "496": "Sleep",
+        "528": "LoadLibraryW",
+        "530": "GetProcAddressW",
+        "168": "CreateFileW",
+        "172": "GetFileSize",
+        "170": "ReadFile",
+        "173": "SetFilePointer",
+        "171": "WriteFile",
+        "175": "FlushFileBuffers",
+        "553": "CloseHandle",
+        "612": "GetCurrentPermissions",
+        "33": "LocalAlloc",
+        "36": "LocalFree",
+        "6": "ExitThread",
+        "1357": "CeGetCurrentTrust",
+        "630": "SetKMode",
+        "611": "SetProcPermissions",
+        "506": "ReadProcessMemory",
+        "179": "DeviceIoControl"
+      }
+    },
+    "neutral-qtk": {
+      "filename": "neutral-qtk.exe",
+      "bytes": 2048,
+      "sha256": "c6fd3e4cf8e9c69f3e4cebdc32583d50369560c66321092177505faafec7681f"
+    }
+  }
+}

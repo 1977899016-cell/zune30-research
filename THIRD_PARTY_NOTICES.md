@@ -27,10 +27,18 @@ of these engines.
 
 The offline upgrade builder calls a separately supplied
 [KodaSec/wince-decompr](https://github.com/KodaSec/wince-decompr) `wincedecompr.py`
-to independently verify CE LZX output. This module is not vendored. Obtain and retain
-its upstream license with your local copy. The tested upstream file SHA-256 is
+to independently verify CE LZX output. The standalone builder accepts a local copy;
+the GUI bundle includes its unchanged MIT source in `app/vendor/` and the upstream
+license in `app/licenses/`. The tested upstream file SHA-256 is
 `42693ba5e756f664d2405bdaa2f6f9bc5671b5956439aeed581c8e7e89f2e72d`.
 Windows MakeCAB is used as a locally installed tool and is not redistributed.
+
+## Windows GUI bundle
+
+The executable packages Python/Tcl/Tk, comtypes and Keystone. Its bundle terms and
+full notices are in `app/LICENSE-BUNDLE.md` and `app/licenses/`. Original native
+backup helper code and import-ordinal metadata are provided; Microsoft device DLL
+code, device vaults and private adapted NK images are excluded.
 
 ## FLAC and community research
 

@@ -28,6 +28,8 @@ is verified, while the menus remain English.
 
 ## 从这里开始 / Start here
 
+- **[下载 Windows 图形升级助手（实验版 Alpha）](https://github.com/1977899016-cell/zune30-research/raw/refs/heads/main/downloads/ZZAudio-Zune30-Assistant-v0.1.0-alpha.1-win64.zip)**
+- **[图形助手：新手使用说明](docs/zh-CN/assistant.md)** · **[English assistant guide](docs/en/assistant.md)**
 - **[1.0 TEST → 3.3 新手详细教程（中文）](docs/zh-CN/upgrade-1.0-test-to-3.3.md)**
 - **[1.0 TEST → 3.3 beginner guide (English)](docs/en/upgrade-1.0-test-to-3.3.md)**
 - [升级失败原因与实际源码 / Upgrade internals and actual source code](docs/upgrade-internals.md)
@@ -47,6 +49,7 @@ is verified, while the menus remain English.
 - `tools/inspect_font.py`：检查自行准备的字体、字族名称及字符覆盖范围。
 - `tests/`：启动依赖与原生 ARM 加载流程的离线回归验证。
 - `tools/upgrade/`：原机备份校验、实际 ARM 兼容例程和 AUTH196 私有镜像的离线构建源码。
+- `app/`：Windows 图形助手、受限 WPD 传输、分阶段 USB 备份、升级及引导恢复源码。
 - `SHA256SUMS.txt`：上述公开文件的完整性清单。
 
 The loader contains project-generated code and import metadata, not a Microsoft system DLL
@@ -61,10 +64,16 @@ user's own firmware; that DLL is not included.
 
 The upgrade guides now explain the workflow, inputs, exact commands, expected output
 and recovery boundaries. The public builder reproduced the historical AUTH196 image
-byte for byte using the maintainer's own private inputs. **It builds offline and does
-not flash a device. General USB backup/installation/recovery tooling is not included.**
+byte for byte using the maintainer's own private inputs. The standalone builder is
+offline. A separate **experimental Windows GUI** now implements restricted USB backup,
+upgrade and guided recovery for the analyzed build. **43 offline tests and packaged
+startup checks passed; the new GUI tool has not completed physical end-to-end acceptance.**
 The desktop-compatible research adaptation is stock-3.3-derived, with per-device RAM
 credential compatibility; it is not a released universally unmodified stock upgrade.
+
+图形助手会在第一次升级前要求完整原机备份和一次恢复验证。USB 备份会替换旧 `qtk.exe`，
+黑屏后的恢复通常还需要人按键。只支持已核对的固件/启动器构建，不是任意 Zune 的通用刷机器。
+请先读 [简明工具说明](docs/zh-CN/assistant.md)。
 
 ## 中文持久化原理 / How persistence works
 
@@ -104,6 +113,8 @@ device playback, reboot and recovery validation.
 
 Original project material is available under the [MIT license](LICENSE). Third-party dependencies
 retain their own licenses. This does not relicense Microsoft firmware/fonts or third-party codecs.
+The packaged GUI includes GPL-2.0 Keystone; its combined binary distribution follows
+[the executable bundle terms](app/LICENSE-BUNDLE.md), with original source still MIT.
 
 感谢 Zune 社区、OpenZDK/OpenZune、字体工具与 FLAC 社区的公开资料和工具。
 See [third-party notices](THIRD_PARTY_NOTICES.md).

@@ -2,6 +2,9 @@
 
 [中文详细教程](../zh-CN/upgrade-1.0-test-to-3.3.md) · [Technical explanation](../upgrade-internals.md) · [Home](../../README.md)
 
+**For the new experimental Windows GUI, start with [the assistant guide](assistant.md).**
+Its restricted state machine is implemented, but new-tool hardware acceptance is pending.
+
 ## What was actually achieved?
 
 One former `1.0 (186) TEST` Zune 30G booted into a working 3.3 menu. The user
@@ -20,7 +23,8 @@ builder, a local backup checker and regression tests. With the maintainer's exac
 private inputs and journal token, the public builder reproduced the historical
 AUTH196 image byte for byte. No credential-bearing image is distributed.
 
-**There is no universal USB backup, flashing or recovery application in this release.**
+**The new Alpha GUI provides restricted backup/install/guided recovery for the analyzed build;
+there is still no universal, hardware-accepted USB updater.**
 Generating a file does not install it. Another device's image must not be reused.
 
 ## 1. Terms and prerequisites
@@ -147,7 +151,7 @@ Random journal tokens normally cause different output hashes between builds.
 
 ## 5. Installation boundary and historical procedure
 
-There is currently no general Windows USB transport backend/installer here.
+The `app/` folder now provides an experimental WPD backend and restricted installer.
 If you do not have a unit-reviewed installer and tested recovery, stop after
 offline preparation. Do not drag an NK into Music, rename an intermediate file,
 or assume Zune software will accept the private image as an official update.
