@@ -1,6 +1,11 @@
 # ZZ AUDIO Zune 30 Upgrade Assistant
 
-**Experimental Alpha, Windows x64. No new-tool hardware end-to-end acceptance yet.**
+**0.1.0-alpha.2, Windows x64. A controlled packaged-worker workflow passed on one additional supported unit.**
+See [the hardware report](../docs/assistant-hardware-20261104.md).
+
+Starting an action temporarily pauses the known ZuneLauncher process; closing the GUI
+restores its prior state. No startup registry or service is changed. An already running
+Zune main application must finish any sync/update and be closed by the user.
 
 [中文使用说明](../docs/zh-CN/assistant.md) · [English](../docs/en/assistant.md)
 

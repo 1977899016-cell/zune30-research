@@ -130,8 +130,8 @@ The reviewed local research installers are not copied verbatim here because they
 contain fixed private paths, per-device identity and state from old sessions.
 Publishing those unchanged would create both privacy problems and a misleading
 cross-device installer. The new `app/` backend parameterizes device identity,
-uses private journals and limits supported builds. Its new-tool hardware acceptance
-remains pending; see [assistant validation](../evidence/assistant-validation.json).
+uses private journals and limits supported builds. Its packaged worker passed a
+controlled workflow on one additional supported unit; see [the hardware report](assistant-hardware-20261104.md).
 
 ## 源码入口 / Code map
 

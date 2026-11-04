@@ -1,5 +1,6 @@
 """Package a Windows x64 experimental GUI. Does not access a connected device."""
 import argparse
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -26,6 +27,6 @@ def main():
     modules = collect_submodules('comtypes', filter=lambda name: not name.startswith(('comtypes.test', 'comtypes.server')))
     for module in modules:
         command[3:3] = ['--hidden-import', module]
-    subprocess.run(command, cwd=root, check=True)
+    subprocess.run(command, cwd=root, check=True, env={**os.environ, 'PYTHONDONTWRITEBYTECODE': '1'})
 
 if __name__ == '__main__': main()

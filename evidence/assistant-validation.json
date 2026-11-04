@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "snapshot_date": "2026-11-01",
+  "snapshot_date": "2026-11-04",
   "application": "ZZ AUDIO Zune 30 Upgrade Assistant",
-  "version": "0.1.0 Alpha",
-  "release_state": "experimental_hardware_acceptance_pending",
-  "offline_regression_tests_passed": 43,
+  "version": "0.1.0-alpha.2",
+  "release_state": "experimental_one_additional_supported_unit_workflow_passed",
+  "offline_regression_tests_passed": 59,
   "implemented": {
     "Windows_graphical_interface": true,
     "serialized_WPD_worker": true,
@@ -18,7 +18,10 @@
     "recovery_gate_before_first_upgrade": true,
     "guided_original_NK_restore": true,
     "original_NK_restore_available_after_partial_raw_backup": true,
-    "unattended_recovery_from_every_failure": false
+    "unattended_recovery_from_every_failure": false,
+    "temporary_launcher_pause_and_restore": true,
+    "existing_main_app_busy_detection": true,
+    "original_commit_error_preserved": true
   },
   "validation": {
     "simulated_backup_restore_upgrade_restore_flow": "passed",
@@ -31,8 +34,15 @@
     "Windows_packaged_GUI_assets_COM_ARM_and_CE_codec_selftest": "passed",
     "packaged_executable_real_private_inputs_offline_prepare": "passed_output_kept_local",
     "visual_window_capture": "not_verified_capture_tool_unavailable",
-    "physical_new_tool_USB_backup_upgrade_restore": "not_performed",
-    "physical_device_operations_during_this_release": false
+    "physical_new_tool_USB_backup_upgrade_restore": "passed_on_one_supported_unit_via_packaged_worker",
+    "physical_device_operations_during_this_release": true,
+    "user_menu_and_official_app_icon": "confirmed",
+    "user_reboot_and_about_3_3": "confirmed",
+    "protocol_3_3_after_reboot": "confirmed",
+    "launcher_pause_restore_and_registry_preservation": "passed",
+    "user_device_reboot_without_official_app_autostart": "confirmed",
+    "manual_visual_all_GUI_interactions": "not_verified",
+    "boot_TEST_badge_removed": false
   },
   "limits": [
     "Only the analyzed first-generation 30G 1.0 TEST build is supported for upgrade",
@@ -41,12 +51,14 @@
     "No permanent full credential migration or bootloader/SIG/partition write is implemented",
     "Recovery staging is transfer-acknowledged and does not claim full readback",
     "Manual entry into USB recovery is generally required",
-    "Existing old-Zune Windows driver and owner-supplied stock firmware are required"
+    "Existing old-Zune Windows driver and owner-supplied stock firmware are required",
+    "Only the known same-session default-installation ZuneLauncher is temporarily stopped; Zune.exe is not terminated"
   ],
   "publication_excludes": [
     "Microsoft device firmware and system DLLs",
     "Real device identifiers and credential material",
     "Owner backups and per-device generated images",
     "Private host paths and worker logs"
-  ]
+  ],
+  "hardware_report": "../docs/assistant-hardware-20261104.md"
 }

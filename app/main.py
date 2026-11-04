@@ -19,7 +19,7 @@ def emit(value):
 def base_folder():
     return Path(os.environ.get('LOCALAPPDATA', Path.home())) / 'ZZAudio' / 'ZuneAssistant'
 
-def worker(action, serial, source, root):
+def worker(action, serial, source, root, launcher_parent=False):
     if os.name != 'nt': raise RuntimeError('设备功能仅支持 Windows')
     kernel = ctypes.WinDLL('kernel32', use_last_error=True)
     kernel.CreateMutexW.argtypes = [ctypes.c_void_p, ctypes.c_bool, ctypes.c_wchar_p]
@@ -29,10 +29,15 @@ def worker(action, serial, source, root):
     if not mutex or ctypes.get_last_error() == 183:
         if mutex: kernel.CloseHandle(mutex)
         raise RuntimeError('另一个 Zune 工具任务仍在运行，请勿同时操作')
+    launcher_pause = None
     try:
         from zzune.engine import Assistant
         def progress(message, percent):
             emit({'event': 'progress', 'message': message, 'percent': percent})
+        if not launcher_parent and action != 'prepare':
+            from zzune.launcher import LauncherPause
+            launcher_pause = LauncherPause(base_folder(), progress)
+            launcher_pause.pause()
         assistant = Assistant(root, progress)
         if action == 'inspect': result = assistant.inspect()
         elif action == 'backup': result = assistant.backup(serial)
@@ -43,7 +48,10 @@ def worker(action, serial, source, root):
         emit({'event': 'result', 'result': result})
         return 0
     finally:
-        kernel.CloseHandle(mutex)
+        try:
+            if launcher_pause: launcher_pause.restore()
+        finally:
+            kernel.CloseHandle(mutex)
 
 def main():
     global IPC_FILE
@@ -55,6 +63,7 @@ def main():
     parser.add_argument('--self-test', action='store_true')
     parser.add_argument('--demo', action='store_true', help='Visual preview only; no device operations')
     parser.add_argument('--ipc-file', type=Path, help='Private local JSONL for the GUI/worker; no network transport')
+    parser.add_argument('--launcher-parent', action='store_true', help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.ipc_file:
         args.ipc_file.parent.mkdir(parents=True, exist_ok=True)
@@ -63,7 +72,7 @@ def main():
     if args.worker:
         if hasattr(sys.stdout, 'reconfigure'): sys.stdout.reconfigure(encoding='utf-8')
         try:
-            return worker(args.worker, args.serial, args.source, args.backup_root or base_folder() / 'Backups')
+            return worker(args.worker, args.serial, args.source, args.backup_root or base_folder() / 'Backups', args.launcher_parent)
         except Exception as exc:
             emit({'event': 'error', 'message': str(exc)})
             return 1
@@ -100,7 +109,10 @@ def main():
                               'physical_device_operations': False})
             return 0
     window = Window(base_folder(), demo=args.demo)
-    window.root.mainloop()
+    try:
+        window.root.mainloop()
+    finally:
+        window.launcher_pause.restore()
     return 0
 
 if __name__ == '__main__':

@@ -13,6 +13,7 @@ from tkinter import ttk, messagebox, filedialog
 import webbrowser
 from . import VERSION
 from .storage import read_json, atomic_json, Session
+from .launcher import LauncherPause
 
 HELP = 'https://github.com/1977899016-cell/zune30-research/blob/main/docs/zh-CN/assistant.md'
 RECOVERY_HELP = ('1. 保持 USB 连接，顶部 HOLD 解锁。\n'
@@ -29,6 +30,7 @@ class Window:
         self.folder.mkdir(parents=True, exist_ok=True)
         self.backup_root = self.folder / 'Backups'
         self.busy, self.current, self.events = False, {}, queue.Queue()
+        self.launcher_pause = LauncherPause(self.folder)
         self.root = tk.Tk()
         self.root.title('ZZ AUDIO · Zune 30 升级助手 ' + VERSION)
         height = min(800, self.root.winfo_screenheight() - 80)
@@ -54,13 +56,13 @@ class Window:
         self.root.bind('<MouseWheel>', lambda event: canvas.yview_scroll(int(-event.delta / 120), 'units'))
         ttk.Label(main, text='Zune 30 升级助手', font=('Microsoft YaHei UI', 22, 'bold')).pack(anchor='w')
         ttk.Label(main, text='1.0 TEST → 3.3 兼容研究版  ·  ZZ AUDIO').pack(anchor='w', pady=(4, 10))
-        notice = ('实验版 Alpha：已通过离线测试，尚未完成本工具的真机端到端验收。\n'
+        notice = ('实验版 Alpha：已在一台匹配构建设备验证备份、恢复、升级和重启。\n'
                   '只支持已核对的 30G TEST 构建；不修改启动器、SIG 或分区。')
         ttk.Label(main, text=notice, foreground='#9b5200', wraplength=710).pack(anchor='w', pady=(0, 12))
         self.device_text = tk.StringVar(value='尚未检查设备。请只连接一台 Zune，然后点击“检查连接”。')
         ttk.Label(main, textvariable=self.device_text, wraplength=700).pack(anchor='w', pady=(0, 10))
         self.inspect_button = self.card(main, '1  检查连接', '读取设备身份和固件版本，不安装任何程序。', '检查连接', self.inspect)
-        self.backup_button = self.card(main, '2  备份原机', '自动分两轮读取原系统、完整闪存和硬盘前部；过程会重启。', '开始 / 继续备份', self.backup)
+        self.backup_button = self.card(main, '2  备份原机', '分两轮备份并重启；官方 Zune 软件若自动打开，等同步结束后退出。', '开始 / 继续备份', self.backup)
         self.upgrade_button = self.card(main, '3  准备并升级', '先选你已有的官方 3.3 NK/CAB；构建、校验后再确认安装。', '选择固件 / 升级', self.prepare_or_upgrade)
         self.experimental = tk.BooleanVar(value=False)
         ttk.Checkbutton(main, text='我了解这是实验版，并允许我点击的备份／升级／恢复步骤写入设备。',
@@ -74,7 +76,7 @@ class Window:
         self.restore_button.pack(side='left')
         ttk.Button(footer, text='打开私有备份', command=self.open_backups).pack(side='left', padx=6)
         ttk.Button(footer, text='使用说明', command=lambda: webbrowser.open(HELP)).pack(side='right')
-        ttk.Label(main, text='备份和镜像只保存在本机，不上传到网络。黑屏时可能需要手动按键进入恢复画面。',
+        ttk.Label(main, text='开始操作后暂停官方软件自动启动，关闭助手时恢复。已有同步须先结束并退出。备份仅存本机；恢复可能需按键。',
                   foreground='#657080', wraplength=710).pack(anchor='w', pady=(10, 0))
         cached = read_json(self.folder / 'last-device.PRIVATE.json', {})
         if cached:
@@ -123,8 +125,10 @@ class Window:
     def backup(self):
         question = ('USB 备份需要临时安装原生备份程序，将替换已有的 qtk.exe，并分两轮重启。\n'
             '旧 qtk.exe 本身无法在替换前通过此接口备份。\n\n'
+            '助手会临时暂停 ZuneLauncher 自动启动器，关闭助手时恢复。\n'
+            '若官方软件原本已打开，请先等同步/更新结束后退出它。\n\n'
             '备份程序只读取系统/闪存/硬盘源；它会写入自己的备份容器。\n'
-            '本工具尚未完成真机端到端验收，失败可能需要手动恢复。\n\n开始或继续本机备份？')
+            '已验证一台匹配构建的机器，其他机器仍可能需要手动恢复。\n\n开始或继续本机备份？')
         if messagebox.askokcancel('开始原机备份', question, parent=self.root): self.start('backup')
 
     def prepare_or_upgrade(self):
@@ -146,11 +150,17 @@ class Window:
 
     def start(self, action, source=''):
         if self.busy or self.demo: return
+        try:
+            self.launcher_pause.pause()
+        except Exception as exc:
+            messagebox.showerror('无法暂停官方软件自动启动', str(exc), parent=self.root)
+            return
         self.busy = True; self.last_action = action; self.last_result = None
         self.status.set('正在执行，请保持窗口和 USB 连接。'); self.bar['value'] = 0
         self.update_controls()
         command = [sys.executable] if getattr(sys, 'frozen', False) else [sys.executable, '-X', 'utf8', '-B', str(Path(__file__).resolve().parents[1] / 'main.py')]
         command += ['--worker', action, '--backup-root', str(self.backup_root)]
+        command += ['--launcher-parent']
         if self.current.get('serial'): command += ['--serial', self.current['serial']]
         if source: command += ['--source', source]
         ipc = self.folder / 'WorkerLogs' / ('operation-' + secrets.token_hex(8) + '.PRIVATE.jsonl')
@@ -225,4 +235,8 @@ class Window:
         if self.busy:
             messagebox.showwarning('操作进行中', '请等待本次操作结束再关闭窗口。安装提交不能通过强制退出安全取消。', parent=self.root)
             return
+        try:
+            self.launcher_pause.restore()
+        except Exception as exc:
+            messagebox.showwarning('启动器恢复提示', str(exc) + '\n未更改 Windows 开机启动项；恢复记录仍保留。', parent=self.root)
         self.root.destroy()

@@ -28,7 +28,7 @@ is verified, while the menus remain English.
 
 ## 从这里开始 / Start here
 
-- **[下载 Windows 图形升级助手（实验版 Alpha）](https://github.com/1977899016-cell/zune30-research/raw/refs/heads/main/downloads/ZZAudio-Zune30-Assistant-v0.1.0-alpha.1-win64.zip)**
+- **[下载 Windows 图形升级助手（实验版 Alpha）](https://github.com/1977899016-cell/zune30-research/raw/refs/heads/main/downloads/ZZAudio-Zune30-Assistant-v0.1.0-alpha.2-win64.zip)**
 - **[图形助手：新手使用说明](docs/zh-CN/assistant.md)** · **[English assistant guide](docs/en/assistant.md)**
 - **[1.0 TEST → 3.3 新手详细教程（中文）](docs/zh-CN/upgrade-1.0-test-to-3.3.md)**
 - **[1.0 TEST → 3.3 beginner guide (English)](docs/en/upgrade-1.0-test-to-3.3.md)**
@@ -66,8 +66,9 @@ The upgrade guides now explain the workflow, inputs, exact commands, expected ou
 and recovery boundaries. The public builder reproduced the historical AUTH196 image
 byte for byte using the maintainer's own private inputs. The standalone builder is
 offline. A separate **experimental Windows GUI** now implements restricted USB backup,
-upgrade and guided recovery for the analyzed build. **43 offline tests and packaged
-startup checks passed; the new GUI tool has not completed physical end-to-end acceptance.**
+upgrade and guided recovery for the analyzed build. **59 offline tests and packaged startup checks passed. The packaged worker completed
+backup, recovery, upgrade and reboot verification on one additional supported unit.**
+See the [hardware report](docs/assistant-hardware-20261104.md).
 The desktop-compatible research adaptation is stock-3.3-derived, with per-device RAM
 credential compatibility; it is not a released universally unmodified stock upgrade.
 

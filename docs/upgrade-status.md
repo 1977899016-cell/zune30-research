@@ -12,7 +12,8 @@ The public source includes the real ARM RAM-compatibility routine, a local backu
 checker and an offline AUTH196 image builder. It reproduces the historical private
 image with the same private inputs; it does not contact USB or install firmware.
 The separate experimental GUI in `app/` implements restricted USB operations with
-same-unit and recovery gates; its full hardware acceptance remains pending.
+same-unit and recovery gates. Its packaged worker passed a controlled workflow on
+one additional supported unit; see [the hardware report](assistant-hardware-20261104.md).
 
 ## 实际结果 / Observed results
 

@@ -1,9 +1,11 @@
 # Windows graphical upgrade assistant
 
-**0.1.0 Alpha: offline tests and packaged startup checks passed. The new tool has not
-completed end-to-end physical-device acceptance.** It is for controlled testing.
+**0.1.0-alpha.2: 59 offline tests and packaged startup checks passed.** A controlled
+packaged-worker backup/recovery/upgrade/reboot workflow passed on one additional
+supported unit. See [the hardware report](../assistant-hardware-20261104.md).
+It remains an experimental, build-restricted tool.
 
-[Windows x64 download](https://github.com/1977899016-cell/zune30-research/raw/refs/heads/main/downloads/ZZAudio-Zune30-Assistant-v0.1.0-alpha.1-win64.zip) · [中文](../zh-CN/assistant.md)
+[Windows x64 download](https://github.com/1977899016-cell/zune30-research/raw/refs/heads/main/downloads/ZZAudio-Zune30-Assistant-v0.1.0-alpha.2-win64.zip) · [中文](../zh-CN/assistant.md)
 
 ## Quick start
 
@@ -27,6 +29,18 @@ It verifies the retrieved NK hash and bootloader code hash before enabling upgra
 USB backup temporarily installs an original native helper through `qtk.exe` and
 reboots in two stages. **The previous qtk.exe cannot itself be backed up through
 this interface before replacement.** The confirmation explains this limitation.
+
+Starting an action temporarily pauses the known, default-installation `ZuneLauncher.exe`
+process so device reboots do not automatically open the official application. Closing
+the GUI restores its previous state. No startup registry value or service is changed.
+**If the Zune main application is already open, finish any sync/update and close it first.**
+The assistant never forcibly terminates the main app; follow its busy-connection prompt.
+
+Starting an action temporarily pauses the known, default-installation `ZuneLauncher.exe`
+process so device reboots do not automatically open the official application. Closing
+the GUI restores its previous state. No startup registry value or service is changed.
+**If the Zune main application is already open, finish any sync/update and close it first.**
+The assistant never forcibly terminates the main app; follow its busy-connection prompt.
 The helper reads source NK/NOR/disk regions and writes only its token-bound owned
 carrier. Incomplete or inconsistent backup results block upgrade.
 
@@ -57,11 +71,13 @@ not completely unmodified stock firmware. The tool does not install Chinese/FLAC
 adaptations, replace EBoot/Recovery, change SIG, format disks or write a permanent
 credential migration. It does not authenticate using a shared device identity.
 
-43 offline tests cover the real state machine and distributed ARM helper execution
+59 offline tests cover the real state machine and distributed ARM helper execution
 against synthetic CE APIs, including owner checks, source instability, corruption,
 backup changes, unknown firmware queues and disconnect/no-repeat behavior. Packaged
-GUI/assets/COM startup checks passed without opening a device. The actual new-tool
-USB backup/upgrade/recovery flow and visual screenshot acceptance remain unverified.
+GUI/assets/COM startup checks passed without opening a device. A controlled physical
+worker workflow passed on one supported unit; the launcher guard separately passed
+host lifecycle and device-reboot tests. Visual screenshot acceptance remains unverified
+and this is not proof of compatibility with every Zune.
 
 See [source](../../app), [research guide](upgrade-1.0-test-to-3.3.md) and the
 [evidence summary](../../evidence/assistant-validation.json).

@@ -1,9 +1,9 @@
 {
-  "filename": "ZZAudio-Zune30-Assistant-v0.1.0-alpha.1-win64.zip",
-  "bytes": 17585706,
-  "sha256": "a272adc521cdc70a7e67f13bd882e29b06b386a11f349edb36742c2b474402e7",
-  "exe_sha256": "b47d6fed6772d2ca2b6141ec7b1e7e810e09a95ca1f9ee5870b881246b7d50cc",
-  "version": "0.1.0-alpha.1",
-  "hardware_end_to_end_acceptance": "pending",
+  "filename": "ZZAudio-Zune30-Assistant-v0.1.0-alpha.2-win64.zip",
+  "bytes": 17597288,
+  "sha256": "6a7a697bb1c2d0af87c91617555b042f3c81b16d69db5c3d4fd761435cf3578b",
+  "exe_sha256": "30ac04bb97b3b74b298fb926d1de99a04768b6bda5cc87e5cb82b954ae9a27f4",
+  "version": "0.1.0-alpha.2",
+  "hardware_end_to_end_acceptance": "packaged_worker_passed_one_additional_supported_unit",
   "source": "https://github.com/1977899016-cell/zune30-research/tree/main/app"
 }

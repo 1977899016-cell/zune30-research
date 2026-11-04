@@ -90,7 +90,8 @@ class FirmwareTransaction:
         try:
             self.transport.operation(0x9204)
             state['commit_response'] = 'acknowledged'
-        except Exception:
+        except Exception as exc:
             state['commit_response'] = 'disconnected_or_uncertain_DO_NOT_RETRY'
+            state['commit_error'] = {'type': type(exc).__name__, 'message': str(exc)[:1000]}
         atomic_json(self.path, state)
         return state

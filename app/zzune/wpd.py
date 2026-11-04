@@ -68,7 +68,10 @@ class WpdTransport:
         self.writable = writable
         self.params = []
         values = self.values()
-        values.SetUnsignedIntegerValue(self.key('{204D9F0C-2292-4080-9F42-40664E70F859}', 9), 0xc0000000 if writable else 0x80000000)
+        # Windows requires GENERIC_READ | GENERIC_WRITE for MTP pass-through
+        # SendCommand, including read-only GetDeviceInfo. Device write authority
+        # remains controlled by self.writable and operation()'s allowlist below.
+        values.SetUnsignedIntegerValue(self.key('{204D9F0C-2292-4080-9F42-40664E70F859}', 9), 0xc0000000)
         self.dev = self.comtypes.client.CreateObject(self.api.PortableDevice, interface=self.api.IPortableDevice)
         self.dev.Open(device_id, values)
 
@@ -101,7 +104,7 @@ class WpdTransport:
         response = self.dev.SendCommand(0, query)
         hr = response.GetErrorValue(self.key(COMMON, 1003)) & 0xffffffff
         if hr:
-            raise RuntimeError('Windows WPD 错误 ' + hex(hr) + '；先检查官方 Zune 软件是否占用连接')
+            raise RuntimeError('Windows WPD 错误 ' + hex(hr) + '（命令 ' + str(command) + '）。驱动会话暂不可用，可能有软件占用或设备尚未完成重连；请检查屏幕和官方 Zune 软件状态。')
         return response
 
     def code(self, response):

@@ -3,7 +3,8 @@
 [中文详细教程](../zh-CN/upgrade-1.0-test-to-3.3.md) · [Technical explanation](../upgrade-internals.md) · [Home](../../README.md)
 
 **For the new experimental Windows GUI, start with [the assistant guide](assistant.md).**
-Its restricted state machine is implemented, but new-tool hardware acceptance is pending.
+Its packaged worker passed a controlled workflow on one additional supported unit.
+See [the 2026-11-04 hardware report](../assistant-hardware-20261104.md); universal compatibility is not claimed.
 
 ## What was actually achieved?
 

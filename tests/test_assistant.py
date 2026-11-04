@@ -99,6 +99,13 @@ class TransactionTests(unittest.TestCase):
         with self.assertRaises(UncertainCommit): self.run_transaction()
         self.assertEqual(self.device.commits, 1)
 
+    def test_uncertain_commit_retains_original_error(self):
+        self.device.disconnect_on_commit = True
+        report = self.run_transaction()
+        self.assertEqual(report['commit_error']['type'], 'RuntimeError')
+        self.assertIn('synthetic USB disconnect', report['commit_error']['message'])
+        self.assertEqual(self.device.commits, 1)
+
     def test_interrupted_process_with_durable_intent_cannot_retry(self):
         atomic_json(self.root / 'transaction.json', {'commit_intent': True})
         with self.assertRaises(UncertainCommit): self.run_transaction()
@@ -246,6 +253,29 @@ class WorkflowDevice(Device):
         return super().operation(op, params, data, read)
 
 class FullWorkflowTests(unittest.TestCase):
+    def test_official_software_blocks_connection_before_USB(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            device = Device()
+            assistant = Assistant(temporary, transport_factory=device,
+                                  enumerate_devices=lambda: self.fail('Must not enumerate while Zune is busy'),
+                                  host_busy=lambda: True)
+            with self.assertRaisesRegex(RuntimeError, '官方 Zune 软件'):
+                assistant.inspect()
+            self.assertEqual(device.calls, [])
+
+    def test_wait_warns_when_software_autoopens_then_resumes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            device = Device()
+            busy = iter([True, False])
+            events = []
+            assistant = Assistant(temporary, transport_factory=device,
+                                  enumerate_devices=lambda: ['fixture'], sleep=lambda _: None,
+                                  progress=lambda message, percent: events.append(message),
+                                  host_busy=lambda: next(busy))
+            self.assertEqual(assistant._wait(SERIAL, lambda *_: 'finished', 'waiting'), 'finished')
+            self.assertTrue(any('官方 Zune 软件' in event for event in events))
+            self.assertEqual(device.calls, [(0x1001, ())])
+
     def test_real_assistant_backup_recovery_gate_upgrade_and_restore_sequence(self):
         nk = b'B000FF\n' + struct.pack('<II', 0x88200000, 4096) + struct.pack('<III', 0x88200000, 3, 294) + b'abc' + struct.pack('<III', 0, 0x88200000, 0)
         nor, disk = bytes(0x200000), bytes([7]) * 0x100000

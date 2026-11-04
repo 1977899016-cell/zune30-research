@@ -17,6 +17,7 @@ import time
 from .protocol import device_info, object_info, Reader
 from .storage import Session, atomic_json, read_json, write_once, digest, same_unit
 from .transfer import NORMAL, RECOVERY, FirmwareTransaction, identify, full_readback
+from .host import OfficialZuneBusy, official_zune_running
 
 BUNDLE = Path(getattr(sys, '_MEIPASS', Path(__file__).resolve().parents[2]))
 ASSETS = BUNDLE / 'app' / 'assets'
@@ -58,17 +59,21 @@ def neutral_helper():
 
 class Assistant:
     def __init__(self, backup_root, progress=lambda *_: None, transport_factory=None, enumerate_devices=None,
-                 sleep=time.sleep, now=time.monotonic):
+                 sleep=time.sleep, now=time.monotonic, host_busy=None):
         if transport_factory is None:
             from .wpd import WpdTransport, inventory
             transport_factory, enumerate_devices = WpdTransport, inventory
+            if host_busy is None: host_busy = official_zune_running
         self.root = Path(backup_root)
         self.progress = progress
         self.factory, self.enumerate = transport_factory, enumerate_devices
         self.sleep, self.now = sleep, now
+        self.host_busy = host_busy or (lambda: False)
 
     @contextmanager
     def connect(self, serial=None, writable=False):
+        if self.host_busy():
+            raise OfficialZuneBusy('检测到官方 Zune 软件正在运行（设备重启后可能自动打开）。请先等同步或固件安装结束，再退出该软件；保持 USB 连接。本工具不会自动关闭它。')
         ids = self.enumerate()
         if len(ids) != 1:
             raise RuntimeError('请只连接一台 Zune；当前检测到 ' + str(len(ids)) + ' 个接口')
@@ -108,16 +113,21 @@ class Assistant:
 
     def _wait(self, serial, predicate, message, seconds=240):
         start = self.now()
+        last_error = None
         while self.now() - start < seconds:
             self.progress(message, None)
             try:
                 with self.connect(serial) as (transport, info):
                     result = predicate(transport, info)
                     if result is not None: return result
-            except (RuntimeError, OSError):
-                pass
+            except OfficialZuneBusy as exc:
+                last_error = str(exc)
+                self.progress(last_error, None)
+            except (RuntimeError, OSError) as exc:
+                last_error = str(exc)
             self.sleep(3)
-        raise RuntimeError('等待设备超时。未重复安装提交。请查看屏幕；黑屏时使用“恢复原系统”的按键引导。')
+        detail = (' 最近状态：' + last_error) if last_error else ''
+        raise RuntimeError('等待设备超时。未重复安装提交。请查看屏幕；黑屏时使用“恢复原系统”的按键引导。' + detail)
 
     def _create_carrier(self, session, role):
         row = helper_manifest()[role]
